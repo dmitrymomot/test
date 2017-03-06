@@ -25,9 +25,9 @@ db:
     image: mariadb
     environment:
         MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: knipster
-        MYSQL_USER: knipster
-        MYSQL_PASSWORD: knipster
+        MYSQL_DATABASE: knpst
+        MYSQL_USER: knpst
+        MYSQL_PASSWORD: knpst
     restart: always
     privileged: true
 
@@ -40,11 +40,11 @@ redis:
     restart: always
 
 api:
-    hostname: api.knipster.dev
-    domainname: api.knipster.dev
+    hostname: api.knpst.dev
+    domainname: api.knpst.dev
     image: dmitrymomot/nginx
     environment:
-        VIRTUAL_HOST: api.knipster.dev
+        VIRTUAL_HOST: api.knpst.dev
     volumes_from:
         - data
     links:
@@ -108,7 +108,7 @@ pma:
     links:
         - db:mysql
     environment:
-        VIRTUAL_HOST: pma.knipster.dev
+        VIRTUAL_HOST: pma.knpst.dev
         MYSQL_USERNAME: root
         MYSQL_ROOT_PASSWORD: root
         MAX_UPLOAD: "512M"

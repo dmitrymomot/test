@@ -13,6 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::resource('customers', 'CustomersController', [
+    'only' => ['show', 'store', 'update']
+]);
+
+Route::post('customers/{id}/deposit', 'CustomerTransactionsController@deposit')
+    ->where(['id' => '[0-9]+']);
+Route::post('customers/{id}/withdraw', 'CustomerTransactionsController@withdraw')
+    ->where(['id' => '[0-9]+']);
+Route::get('reports/summary/{start_date?}/{end_date?}', 'ReportsController@getSummary')
+    ->where([
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ]);
