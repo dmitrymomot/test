@@ -1,0 +1,127 @@
+data:
+    image: dmitrymomot/docker-data
+    volumes:
+        - /root/.composer
+        - ~/.ssh/id_rsa_pswd_less:/root/.ssh/id_rsa:ro
+        - ~/.ssh/known_hosts:/root/.ssh/known_hosts:rw
+        - ~/.composer/auth.json:/root/.composer/auth.json:rw
+        - ./:/data/www:rw
+        - ./storage/logs:/data/logs:rw
+        - ./.env.docker:/data/www/.env:rw
+    command: "true"
+
+php:
+    image: framgia/laravel-php-fpm
+    working_dir: /data/www
+    volumes_from:
+        - data
+    links:
+        - db
+        - memcached
+        - redis
+    restart: always
+
+db:
+    image: mariadb
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: knipster
+        MYSQL_USER: knipster
+        MYSQL_PASSWORD: knipster
+    restart: always
+    privileged: true
+
+memcached:
+    image: memcached
+    restart: always
+
+redis:
+    image: redis
+    restart: always
+
+api:
+    hostname: api.knipster.dev
+    domainname: api.knipster.dev
+    image: dmitrymomot/nginx
+    environment:
+        VIRTUAL_HOST: api.knipster.dev
+    volumes_from:
+        - data
+    links:
+        - php:fpm
+    working_dir: /data/www
+    restart: always
+
+deps:
+    image: composer
+    command: clear-cache
+    command: update --ignore-platform-reqs -vv
+    working_dir: /data/www
+    volumes_from:
+        - data
+
+migrations:
+    image: dmitrymomot/laravel-artisan
+    command: migrate --seed --env=local
+    working_dir: /data/www
+    volumes_from:
+        - data
+    links:
+        - db
+        - memcached
+        - redis
+
+tests:
+    image: codeception/codeception
+    command: run api --fail-fast
+    # command: run api
+    working_dir: /data/www
+    volumes_from:
+        - data
+    links:
+        - api
+
+apidoc:
+    image: dmitrymomot/apidoc
+    command: -v -i app/Http/Controllers/ -o public/doc/
+    working_dir: /data/www
+    volumes_from:
+        - data
+
+composer:
+    image: composer
+    command: clear-cache
+    working_dir: /data/www
+    volumes_from:
+        - data
+
+artisan:
+    image: dmitrymomot/laravel-artisan
+    volumes_from:
+        - data
+    links:
+        - db
+        - memcached
+
+pma:
+    image: dmitrymomot/pma
+    links:
+        - db:mysql
+    environment:
+        VIRTUAL_HOST: pma.knipster.dev
+        MYSQL_USERNAME: root
+        MYSQL_ROOT_PASSWORD: root
+        MAX_UPLOAD: "512M"
+    restart: always
+
+queues:
+    image: dmitrymomot/laravel-artisan
+    command: queue:work
+    working_dir: /data/www
+    volumes_from:
+        - data
+    links:
+        - db
+        - memcached
+        - redis
+    restart: always
