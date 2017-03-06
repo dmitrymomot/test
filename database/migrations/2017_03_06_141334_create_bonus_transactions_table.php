@@ -27,11 +27,6 @@ class CreateBonusTransactionsTable extends Migration
                 ->references('id')
                 ->on('customers')
                 ->onDelete('cascade');
-            $table
-                ->foreign('payment_id')
-                ->references('id')
-                ->on('payment_transactions')
-                ->onDelete('cascade');
         });
     }
 

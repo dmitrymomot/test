@@ -3,7 +3,7 @@
 namespace API\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Validator;
 
 class ReportsController extends Controller
 {
@@ -15,7 +15,7 @@ class ReportsController extends Controller
      * @param  \Carbon\Carbon  $end_date
      * @return \Illuminate\Http\Response
      */
-    public function getSummary(Request $request, Carbon $start_date = null, Carbon $end_date = null)
+    public function getSummary(Request $request, $start_date = null, $end_date = null)
     {
 
     }

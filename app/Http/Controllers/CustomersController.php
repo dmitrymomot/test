@@ -2,8 +2,10 @@
 
 namespace API\Http\Controllers;
 
-use API\Customer;
+use API\Models\Customer;
 use Illuminate\Http\Request;
+use API\Http\Requests\StoreCustomer;
+use API\Http\Requests\UpdateCustomer;
 
 class CustomersController extends Controller
 {
@@ -11,22 +13,23 @@ class CustomersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return json
      */
-    public function store(Request $request)
+    public function store(StoreCustomer $request)
     {
-        //
+        $customer = (new Customer($request->all()))->save();
+        return response()->json(['data' => $customer]);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \API\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return json
      */
     public function show(Customer $customer)
     {
-        //
+        return response()->json(['data' => $customer]);
     }
 
     /**
@@ -34,10 +37,11 @@ class CustomersController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \API\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return json
      */
-    public function update(Request $request, Customer $customer)
+    public function update(UpdateCustomer $request, Customer $customer)
     {
-        //
+        $customer = $customer->update($request->all());
+        return response()->json(['data' => $customer]);
     }
 }

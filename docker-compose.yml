@@ -71,15 +71,17 @@ migrations:
         - memcached
         - redis
 
-tests:
-    image: codeception/codeception
-    command: run api --fail-fast
-    # command: run api
+phpunit:
+    image: dmitrymomot/laravel-artisan
+    entrypoint: ./vendor/bin/phpunit
+    command: --stop-on-error --debug
     working_dir: /data/www
     volumes_from:
         - data
     links:
-        - api
+        - db
+        - memcached
+        - redis
 
 apidoc:
     image: dmitrymomot/apidoc
@@ -102,6 +104,7 @@ artisan:
     links:
         - db
         - memcached
+        - redis
 
 pma:
     image: dmitrymomot/pma

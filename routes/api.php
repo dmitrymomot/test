@@ -19,10 +19,9 @@ Route::resource('customers', 'CustomersController', [
 
 Route::post('customers/{id}/deposit', 'CustomerTransactionsController@deposit')
     ->where(['id' => '[0-9]+']);
+
 Route::post('customers/{id}/withdraw', 'CustomerTransactionsController@withdraw')
     ->where(['id' => '[0-9]+']);
+
 Route::get('reports/summary/{start_date?}/{end_date?}', 'ReportsController@getSummary')
-    ->where([
-        'start_date' => 'date',
-        'end_date' => 'date',
-    ]);
+    ->middleware('check_date_range');

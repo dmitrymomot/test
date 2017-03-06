@@ -44,7 +44,28 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        // If the app is in debug mode
+        if (config('app.debug')) {
+            return parent::render($request, $exception);
+        }
+
+        // Define the response
+        $response = [
+            'errors' => $exception->getMessage() ?: 'Something went wrong',
+        ];
+
+        // Default response of 400
+        $status = 400;
+
+        // If this exception is an instance of HttpException
+        if ($this->isHttpException($exception))
+        {
+            // Grab the HTTP status code from the Exception
+            $status = $exception->getStatusCode();
+        }
+
+        // Return a JSON response with the response array and status code
+        return response()->json($response, $status);
     }
 
     /**
