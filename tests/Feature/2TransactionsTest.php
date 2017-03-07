@@ -31,7 +31,7 @@ class TransactionsTest extends TestCase
         $data['amount'] = intval($data['amount'] * 100);
 
         $response
-            ->assertJson(['data' => $data])
+            ->assertJson(['data' => true])
             ->assertStatus(200);
 
         $this->assertDatabaseHas('payment_transactions', $data);
@@ -77,7 +77,7 @@ class TransactionsTest extends TestCase
         $data['amount'] = intval($data['amount'] * 100);
 
         $response
-            ->assertJson(['data' => $data])
+            ->assertJson(['data' => true])
             ->assertStatus(200);
 
         $this->assertDatabaseHas('payment_transactions', $data);
