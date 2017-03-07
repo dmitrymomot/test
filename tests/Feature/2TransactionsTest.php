@@ -26,8 +26,6 @@ class TransactionsTest extends TestCase
 
         $response = $this->json('POST', 'api/customers/'.$customer->id.'/deposit', $data);
 
-        sleep(10);
-
         $data['type'] = Payment::DEPOSIT;
         $data['customer_id'] = $customer->id;
         $data['amount'] = intval($data['amount'] * 100);
