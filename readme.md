@@ -73,5 +73,7 @@ And add new host into list
 192.168.99.100  api.knpst.dev  pma.knpst.dev
 ```
 Folow link [pma.knpst.dev](http://pma.knpst.dev)
+```
 Login: root
 Password: root
+```
