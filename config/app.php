@@ -229,4 +229,6 @@ return [
 
     ],
 
+    'bonus_deposit' => env('BONUS_DEPOSIT', 3),
+
 ];

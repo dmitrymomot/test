@@ -33,22 +33,6 @@ class StoreCustomer extends FormRequest
         ];
     }
 
-    /**
-     * Get custom messages for validator errors.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'email' => 'required|email|unique:customers,email',
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'gender' => 'required|in:male,female',
-            'country' => 'required|string',
-        ];
-    }
-
     public function response(array $errors)
     {
         return new JsonResponse($errors, 422);

@@ -11,7 +11,7 @@ data:
     command: "true"
 
 php:
-    image: framgia/laravel-php-fpm
+    image: dmitrymomot/laravel-php7-fpm
     working_dir: /data/www
     volumes_from:
         - data
@@ -119,7 +119,7 @@ pma:
 
 queues:
     image: dmitrymomot/laravel-artisan
-    command: queue:work
+    command: queue:listen --tries=3 --env=local
     working_dir: /data/www
     volumes_from:
         - data

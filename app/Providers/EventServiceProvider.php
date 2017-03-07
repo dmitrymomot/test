@@ -13,8 +13,11 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'API\Events\SomeEvent' => [
-            'API\Listeners\EventListener',
+        'API\Events\CustomerCreated' => [
+            'API\Listeners\CustomerCreated',
+        ],
+        'API\Events\Transactions\Deposit' => [
+            'API\Listeners\Transactions\Deposit',
         ],
     ];
 

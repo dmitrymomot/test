@@ -4,6 +4,7 @@ namespace API\Http\Middleware;
 
 use Closure;
 use Validator;
+use Carbon\Carbon;
 
 class CheckDateRange
 {
@@ -31,6 +32,11 @@ class CheckDateRange
             $errors = $validator->errors();
             abort(400, $errors->first());
         }
+
+        $request->merge([
+            'start_date' => new Carbon($request->start_date),
+            'end_date' => new Carbon($request->end_date),
+        ]);
 
         return $next($request);
     }

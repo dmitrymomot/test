@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Queue;
 
 class ReportTest extends TestCase
 {
@@ -14,8 +15,9 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testGetDefaultReport()
     {
-        $this->assertTrue(true);
+        $response = $this->json('GET', 'api/reports/summary');
+        $response->assertStatus(200);
     }
 }

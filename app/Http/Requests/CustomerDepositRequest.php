@@ -3,11 +3,8 @@
 namespace API\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\Rule;
-use Request;
 
-class UpdateCustomer extends FormRequest
+class CustomerDepositRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,14 +24,7 @@ class UpdateCustomer extends FormRequest
     public function rules()
     {
         return [
-            'email' => [
-                'email',
-                Rule::unique('customers')->ignore(request()->customer->id),
-            ],
-            'first_name' => 'string|min:2',
-            'last_name' => 'string|min:2',
-            'gender' => 'in:male,female',
-            'country' => 'string|min:2',
+            'amount' => 'required|numeric|min:1',
         ];
     }
 

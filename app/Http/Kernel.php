@@ -57,5 +57,6 @@ class Kernel extends HttpKernel
         'guest' => \API\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'check_date_range' => \API\Http\Middleware\CheckDateRange::class,
+        'max_withdraw' => \API\Http\Middleware\MaxWithdraw::class,
     ];
 }

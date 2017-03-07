@@ -17,11 +17,12 @@ Route::resource('customers', 'CustomersController', [
     'only' => ['show', 'store', 'update']
 ]);
 
-Route::post('customers/{id}/deposit', 'CustomerTransactionsController@deposit')
-    ->where(['id' => '[0-9]+']);
+Route::post('customers/{customer}/deposit', 'CustomerTransactionsController@deposit')
+    ->where(['customer' => '[0-9]+']);
 
-Route::post('customers/{id}/withdraw', 'CustomerTransactionsController@withdraw')
-    ->where(['id' => '[0-9]+']);
+Route::post('customers/{customer}/withdraw', 'CustomerTransactionsController@withdraw')
+    ->where(['customer' => '[0-9]+'])
+    ->middleware('max_withdraw');
 
 Route::get('reports/summary/{start_date?}/{end_date?}', 'ReportsController@getSummary')
     ->middleware('check_date_range');

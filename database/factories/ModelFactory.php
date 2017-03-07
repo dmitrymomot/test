@@ -12,13 +12,23 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(API\User::class, function (Faker\Generator $faker) {
-    static $password;
-
+$factory->define(API\Models\Customer::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
+        'first_name' => $faker->firstNameMale,
+        'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'gender' => 'male',
+        'country' => $faker->stateAbbr,
+    ];
+});
+
+$factory->define(API\Models\Transactions\Payment::class, function (Faker\Generator $faker) {
+    return [
+        'amount' => rand(1, 100),
+        'type' => $faker->randomElement([
+            API\Models\Transactions\Payment::DEPOSIT,
+            API\Models\Transactions\Payment::WITHDRAW,
+        ]),
+        'created_at' => $faker->dateTimeThisMonth,
     ];
 });
