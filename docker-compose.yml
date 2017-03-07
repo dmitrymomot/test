@@ -49,6 +49,7 @@ api:
         - data
     links:
         - php:fpm
+        - queues
     working_dir: /data/www
     restart: always
 
@@ -71,7 +72,7 @@ migrations:
         - memcached
         - redis
 
-phpunit:
+tests:
     image: dmitrymomot/laravel-artisan
     entrypoint: ./vendor/bin/phpunit
     command: --stop-on-error --debug
